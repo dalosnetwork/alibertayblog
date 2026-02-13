@@ -7,6 +7,11 @@ interface Props {
 }
 
 export default function PostCard({ post, compact = false }: Props) {
+  const tags = post.tags
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean)
+
   return (
     <article className={`post-card ${compact ? 'compact' : ''}`}>
       <div className="meta">{new Date(post.published_at ?? post.created_at).toLocaleDateString('tr-TR')}</div>
@@ -14,7 +19,13 @@ export default function PostCard({ post, compact = false }: Props) {
         <Link to={`/p/${post.slug}`}>{post.title}</Link>
       </h3>
       {post.subtitle && <p>{post.subtitle}</p>}
-      <small>{post.tags}</small>
+      <div className="tag-row">
+        {tags.map((tag) => (
+          <span key={tag} className="tag-pill">
+            #{tag}
+          </span>
+        ))}
+      </div>
     </article>
   )
 }

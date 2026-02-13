@@ -1,12 +1,20 @@
-from slugify import slugify
+import re
+import unicodedata
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import Post
 
 
+def _slugify(value: str) -> str:
+    normalized = unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    slug = re.sub(r"[^a-zA-Z0-9]+", "-", normalized).strip("-").lower()
+    return slug or "post"
+
+
 def generate_unique_slug(db: Session, title: str, current_post_id: int | None = None) -> str:
-    base_slug = slugify(title) or "post"
+    base_slug = _slugify(title)
     slug = base_slug
     suffix = 2
 
