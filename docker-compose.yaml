@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: alibertayblog-backend
+    ports:
+      - "9027:9027"
+    environment:
+      ADMIN_USERNAME: admin
+      ADMIN_PASSWORD: change_me
+      JWT_SECRET: super-secret-key
+      CORS_ORIGINS: http://localhost:5173
+      DATABASE_URL: sqlite:////data/blog.db
+    volumes:
+      - blog_data:/data
+    restart: unless-stopped
+
+volumes:
+  blog_data:
