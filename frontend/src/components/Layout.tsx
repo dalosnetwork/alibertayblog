@@ -8,8 +8,7 @@ export default function Layout() {
       <div className="scanline" aria-hidden="true" />
       <header className="topbar">
         <Link to="/" className="brand">
-          <span>ALI BERTAY</span>
-          <strong>TERMINAL PRESS</strong>
+          ALI BERTAY // TERMINAL PRESS
         </Link>
         <Form
           className="search-form"
@@ -20,11 +19,13 @@ export default function Layout() {
             if (q) navigate(`/search?q=${encodeURIComponent(q)}`)
           }}
         >
-          <input name="q" placeholder="Arşivde ara..." />
-          <button type="submit">SCAN</button>
+          <input name="q" placeholder="Yazılarda ara..." />
+          <button type="submit">Ara</button>
         </Form>
+        <Link to="/admin" className="admin-link">
+          Admin
+        </Link>
       </header>
-      <div className="signal-bar">LIVE FEED // IDEAS • ENGINEERING • CULTURE // SIGNAL: STABLE</div>
       <main className="container">
         <Outlet />
       </main>
