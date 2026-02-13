@@ -35,17 +35,3 @@ Uygulama startup sırasında örnek yazıları seed eder (veritabanı boşsa).
 ## Admin Bilgileri
 
 `.env` içindeki `ADMIN_USERNAME` ve `ADMIN_PASSWORD` değerleri kullanılır.
-
-
-## Python Sürümü Notu
-
-- Python `3.11`, `3.12` veya `3.13` kullanın.
-- Python `3.14` ile `pydantic-core` derleme hatası alabilirsiniz (PyO3 uyumluluğu).
-
-Örnek (pyenv):
-
-```bash
-pyenv install 3.13.6
-pyenv local 3.13.6
-python -m venv .venv
-```
