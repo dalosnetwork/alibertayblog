@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, PlainTextResponse, Response
 
 from app.config import settings
 from app.db import Base, SessionLocal, engine
@@ -18,6 +18,16 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def add_noarchive_headers(request: Request, call_next) -> Response:
+    response = await call_next(request)
+    response.headers["X-Robots-Tag"] = "noindex, nofollow, noarchive, nosnippet, noimageindex"
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(_: Request, exc: HTTPException) -> JSONResponse:
     return JSONResponse(status_code=exc.status_code, content={"detail": str(exc.detail)})
@@ -33,6 +43,11 @@ def on_startup() -> None:
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/robots.txt", include_in_schema=False)
+def robots_txt() -> PlainTextResponse:
+    return PlainTextResponse("User-agent: *\nDisallow: /\n")
 
 
 app.include_router(public.router)

@@ -47,3 +47,18 @@ UI: `http://localhost:5173`
 - Public frontend: `http://localhost:5173`
 - Public API (local): `http://localhost:9027`
 - Admin URL: `http://localhost:5173/admin/login`
+
+
+## Python Version
+
+Backend için Python `3.11-3.13` önerilir. Python `3.14` ile bazı bağımlılıklar (özellikle `pydantic-core`) derleme hatası verebilir.
+
+
+## Arşivlenmeyi azaltma (archive.org vb.)
+
+Aşağıdaki önlemler eklendi:
+- API yanıtlarında `X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex`
+- `Cache-Control: no-store` ve ilgili no-cache başlıkları
+- `robots.txt` ile tüm botlara `Disallow: /`
+
+> Not: Bunlar arşivlemeyi ciddi şekilde azaltır ama internet üzerinde **%100 garanti** vermez. Kesin kapatma için domain ve sunucuyu kapattığınızda içerik erişimi kesilir; üçüncü tarafın daha önce aldığı kopyaları teknik olarak tamamen engellemek mümkün olmayabilir.
