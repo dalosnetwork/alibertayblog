@@ -47,8 +47,3 @@ UI: `http://localhost:5173`
 - Public frontend: `http://localhost:5173`
 - Public API (local): `http://localhost:9027`
 - Admin URL: `http://localhost:5173/admin/login`
-
-
-## Python Version
-
-Backend için Python `3.11-3.13` önerilir. Python `3.14` ile bazı bağımlılıklar (özellikle `pydantic-core`) derleme hatası verebilir.
