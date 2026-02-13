@@ -5,9 +5,10 @@ export default function Layout() {
 
   return (
     <div className="site-shell">
+      <div className="scanline" aria-hidden="true" />
       <header className="topbar">
         <Link to="/" className="brand">
-          ALI BERTAY JOURNAL
+          ALI BERTAY // TERMINAL PRESS
         </Link>
         <Form
           className="search-form"

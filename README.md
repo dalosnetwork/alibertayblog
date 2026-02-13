@@ -40,3 +40,10 @@ UI: `http://localhost:5173`
 - Arama
 - Admin login + CRUD + publish/unpublish
 - SQLite + Alembic migration + seed data
+
+
+## URLs
+
+- Public frontend: `http://localhost:5173`
+- Public API (local): `http://localhost:9027`
+- Admin URL: `http://localhost:5173/admin/login`
