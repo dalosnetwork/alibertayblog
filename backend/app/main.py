@@ -123,7 +123,7 @@ def sitemap_xml() -> Response:
                     if not slug:
                         continue
                     # Frontend route'un: /post/<slug> veya /posts/<slug> ise burayı değiştir
-                    loc = f"{site}/post/{slug}"
+                    loc = f"{site}/p/{slug}"
                     lastmod_str = None
                     if lastmod is not None:
                         # datetime ise ISO'ya çevir
