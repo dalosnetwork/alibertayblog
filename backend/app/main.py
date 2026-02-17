@@ -9,14 +9,28 @@ from app.seed import seed_posts
 
 app = FastAPI(title="Ali Bertay Blog API", version="1.0.0")
 
+# --- CORS: FULL OPEN (dev-friendly) ---
+# Not: allow_credentials=True iken allow_origins=["*"] kullanılamaz (tarayıcı engeller).
+# Bu yüzden "her origin'i yansıtma" (regex) yöntemiyle full-open yapıyoruz.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origin.strip() for origin in settings.cors_origins.split(",")],
-    allow_credentials=True,
+    allow_origin_regex=".*",   # tüm origin'lere izin ver
+    allow_credentials=True,    # cookie/authorization header gibi credential'lar için
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=86400,             # preflight cache (1 gün)
 )
 
+# Eğer sen credentials kullanmıyorsan (cookie falan yok, sadece bearer token vs),
+# o zaman en basit FULL OPEN şudur:
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=False,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 @app.middleware("http")
 async def add_noarchive_headers(request: Request, call_next) -> Response:
@@ -26,6 +40,12 @@ async def add_noarchive_headers(request: Request, call_next) -> Response:
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
     return response
+
+
+# Preflight'ı ekstra garantiye almak istersen (çoğu zaman middleware yeterli):
+@app.options("/{full_path:path}", include_in_schema=False)
+async def preflight_handler(full_path: str) -> Response:
+    return Response(status_code=204)
 
 
 @app.exception_handler(HTTPException)
